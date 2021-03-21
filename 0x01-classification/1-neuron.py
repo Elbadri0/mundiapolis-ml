@@ -11,6 +11,7 @@ class Neuron:
 
     def __init__(self, nx):
         '''the function for the Neuron class
+        
         input.
             nx: The number of input of the neuron.
         '''
