@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
+'''the neruon class
+'''
 
 import numpy as np
 
 
 class Neuron:
+    '''Class that initialized a neuron
+    '''
 
     def __init__(self, nx):
+        '''the function for the Neuron class
 
+        input.
+            nx: The number of input of the neuron.
+        '''
 
         if not isinstance(nx, int):
             raise TypeError('nx must be an integer')
