@@ -11,9 +11,6 @@ class Neuron:
 
     def __init__(self, nx):
         '''Initialization function for the Neuron class.
-
-        Args.
-            nx: The number of input features to the neuron.
         '''
 
         if not isinstance(nx, int):
@@ -47,12 +44,6 @@ class Neuron:
 
     def forward_prop(self, X):
         '''Calculates the forward propagation of the neuron.
-
-        Args.
-            X: numpy.ndarray with shape (nx, m) that contains the input data.
-
-        Returns.
-            The private attribute __A.
         '''
 
         x = np.matmul(self.__W, X) + self.__b
