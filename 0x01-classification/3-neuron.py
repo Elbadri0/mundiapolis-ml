@@ -6,11 +6,12 @@ import numpy as np
 
 
 class Neuron:
-    '''Class that defines a neuron
+    '''Class that defines a neuron.
     '''
 
     def __init__(self, nx):
-        '''Initialization function for the Neuron class
+        '''Initialization function for the Neuron class.
+
         Args.
             nx: The number of input features to the neuron.
         '''
@@ -25,29 +26,31 @@ class Neuron:
 
     @property
     def W(self):
-        '''Returns the value of __W
+        '''Returns the value of __W.
         '''
 
         return self.__W
 
     @property
     def b(self):
-        '''Returns the value of __b
+        '''Returns the value of __b.
         '''
 
         return self.__b
 
     @property
     def A(self):
-        '''Returns the value of __A
+        '''Returns the value of __A.
         '''
 
         return self.__A
 
     def forward_prop(self, X):
-        '''the forward propagation of the neuron.
+        '''Calculates the forward propagation of the neuron.
+
         Args.
             X: numpy.ndarray with shape (nx, m) that contains the input data.
+
         Returns.
             The private attribute __A.
         '''
@@ -55,8 +58,8 @@ class Neuron:
         x = np.matmul(self.__W, X) + self.__b
         self.__A = 1 / (1 + np.exp(-x))
         return self.__A
-      
-      def cost(self, Y, A):
+
+    def cost(self, Y, A):
         '''Calculates the cost of the model using logistic regression.
         '''
         loss_sum = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))
