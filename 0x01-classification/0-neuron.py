@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
-'''the neruon class
+'''the Module
 '''
 
 import numpy as np
 
 
 class Neuron:
-    '''Class that initialized a neuron
+    '''Class that defines a neuron
     '''
 
     def __init__(self, nx):
         '''the function for the Neuron class
-
-        input.
-            nx: The number of input of the neuron.
+            Initialization
         '''
 
         if not isinstance(nx, int):
