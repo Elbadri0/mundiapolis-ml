@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 '''Neuron'''
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Neuron:
@@ -86,19 +87,47 @@ class Neuron:
                 (A - Y)
             ) * -alpha
 
-    def train(self, X, Y, iterations=5000, alpha=0.05):
+    def train(
+        self, X, Y,
+        iterations=5000,
+        alpha=0.05,
+        verbose=True,
+        graph=True,
+        step=100
+    ):
         '''Trains the neuron'''
         if type(iterations) != int:
             raise TypeError('iterations must be an integer')
-        if iterations <= 0:
+        if iterations < 0:
             raise ValueError('iterations must be a positive integer')
         if type(alpha) != float:
             raise TypeError('alpha must be a float')
-        if alpha <= 0:
+        if alpha < 0:
             raise ValueError('alpha must be positive')
-        [
-            self.gradient_descent(
-                X, Y, self.forward_prop(X), alpha
-            ) for _ in range(iterations)
-        ]
-        return self.evaluate(X, Y)
+        if verbose or graph:
+            if type(step) != int:
+                raise TypeError('step must be an integer')
+            if (step < 0) or (step > iterations):
+                raise ValueError('step must be positive and <= iterations')
+        allCost, stepper = [], 0
+        for i in range(iterations):
+            A = self.forward_prop(X)
+            self.gradient_descent(X, Y, A, alpha)
+            allCost.append(self.cost(Y, A))
+            if verbose and (i - 1 == stepper - 1):
+                print(
+                    'Cost after {} iterations: {}'.format(
+                        i, allCost[i]
+                    )
+                )
+                stepper += step
+        A, cost = self.evaluate(X, Y)
+        i += 1
+        print("Cost after {} iterations: {}".format(i, cost))
+        if graph:
+            plt.plot(allCost)
+            plt.xlabel('iteration')
+            plt.ylabel('cost')
+            plt.title('Training Cost')
+            plt.show()
+        return (A, cost)

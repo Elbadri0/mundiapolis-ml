@@ -1,68 +1,72 @@
 #!/usr/bin/env python3
-'''the Module
-'''
-
+'''Neuron'''
 import numpy as np
 
 
 class Neuron:
-    '''Class that defines a neuron
-    '''
+    '''Neuron defines a single neuron
+    performing binary classification'''
 
     def __init__(self, nx):
-        '''the function for the Neuron class
-            Initialization
-        '''
-
-        if not isinstance(nx, int):
+        '''Class Constructor'''
+        if type(nx) != int:
             raise TypeError('nx must be an integer')
-        if nx < 1:
+        elif nx < 1:
             raise ValueError('nx must be a positive integer')
-        self.W = np.random.normal(0, 1, (1, nx))
-        self.b = 0
-        self.A = 0
+        else:
+            self.__W = np.random.normal(size=(1, nx))
+            self.__b = 0
+            self.__A = 0
 
     @property
     def W(self):
-        '''Returns the value of __W
-        '''
-
+        '''W'''
         return self.__W
 
     @property
     def b(self):
-        '''Returns the value of __b
-        '''
-
+        '''b'''
         return self.__b
 
     @property
     def A(self):
-        '''Returns the value of __A
-        '''
-
+        '''A'''
         return self.__A
 
     def forward_prop(self, X):
-        '''the forward propagation of the neuron.
-        '''
-
-        x = np.matmul(self.__W, X) + self.__b
-        self.__A = 1 / (1 + np.exp(-x))
+        '''Calculates the forward
+        propagation of the neuron'''
+        self.__A = self.sigmoid(
+            np.matmul(self.__W, X) + self.__b
+        )
         return self.__A
 
+    def sigmoid(self, X):
+        '''Sigmoid function'''
+        return 1.0/(1.0 + np.exp(-X))
+
     def cost(self, Y, A):
-        '''Calculates the cost of the model using logistic regression.
-        '''
-        loss_sum = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))
-        self.__cost = -(1 / A.size) * loss_sum
-        return self.__cost
+        '''Calculates the cost of the
+        model using logistic regression'''
+        m = A.shape[1]
+        cost = (
+                -(1 / m)
+            ) * (np.sum(
+                    (
+                        Y * np.log(A)
+                    ) + ((
+                            1 - Y
+                        ) * np.log(
+                            1.0000001 - A
+                        )
+                    )
+                )
+            )
+        return cost
 
     def evaluate(self, X, Y):
-        '''Evaluates the neuron’s predictions.
-        '''
-
-        self.forward_prop(X)
-        pred = np.where(self.__A >= 0.5, 1, 0)
-        cost = self.cost(Y, self.__A)
-        return pred, cost
+        '''Evaluates the neuron’s predictions'''
+        propagation = self.forward_prop(X)
+        self.__A = np.where(propagation >= 0.5, 1, 0)
+        cost = self.cost(Y, propagation)
+        return (self.__A, cost)
