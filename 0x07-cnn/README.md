@@ -6,5 +6,3 @@
 ### 4. LeNet-5 (Tensorflow)
 ### 5. LeNet-5 (Keras)
 ### 6. Summarize Like a Pro
----
-> Written By YosriGFX | HBTN C10
