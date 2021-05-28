@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
-'''Create PlaceHolder'''
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
+"""Create placeholders module"""
+import tensorflow as tf
 
 
 def create_placeholders(nx, classes):
-    '''return2 placeholders
-    x and y
-    '''
-    return tf.placeholder(
-        "float", [None, nx], name='x'
-    ), tf.placeholder(
-        "float", [None, classes], name='y'
-    )
+    """Function that creates and returns placeholders
+    for a neural network
+    """
+    x = tf.placeholder(tf.float32, shape=(None, nx), name='x')
+    y = tf.placeholder(tf.float32, shape=(None, classes), name='y')
+    return x, y

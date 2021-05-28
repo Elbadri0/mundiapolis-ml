@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
-'''Evaluate'''
+"""Evaluate module"""
 import tensorflow as tf
 
 
 def evaluate(X, Y, save_path):
-    '''Function that evaluates
-    the output of a neural network'''
-    session = tf.Session()
-    saver = tf.train.import_meta_graph("{}.meta".format(save_path))
-    saver.restore(session, save_path)
+    """Function that evaluates the output of a neural network"""
 
-    x = tf.get_collection("x")[0]
-    y = tf.get_collection("y")[0]
-    y_pred = tf.get_collection("y_pred")[0]
-    acc = tf.get_collection("accuracy")[0]
-    loss = tf.get_collection("loss")[0]
+    with tf.Session() as sess:
+        saver = tf.train.import_meta_graph('{}.meta'.format(save_path))
+        saver.restore(sess, '{}'.format(save_path))
 
-    predY = session.run(y_pred, feed_dict={x: X, y: Y})
-    accuracy = session.run(accuracy, feed_dict={x: X, y: Y})
-    lossE = session.run(loss, feed_dict={x: X, y: Y})
+        x, *_ = tf.get_collection('x')
+        y, *_ = tf.get_collection('y')
+        y_pred, *_ = tf.get_collection('y_pred')
+        loss, *_ = tf.get_collection('loss')
+        accuracy, *_ = tf.get_collection('accuracy')
 
-    return predY, accuracy, lossE
+        net_pred = sess.run(y_pred, feed_dict={x: X, y: Y})
+        net_loss = sess.run(loss, feed_dict={x: X, y: Y})
+        net_accuracy = sess.run(accuracy, feed_dict={x: X, y: Y})
+
+    return net_pred, net_accuracy, net_loss
